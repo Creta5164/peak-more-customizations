@@ -44,6 +44,9 @@
     <!-- Game dependencies -->
     <Reference Include="$(GameDir)/PEAK_Data/Managed/Assembly-CSharp.dll"/>
     <Reference Include="$(GameDir)/PEAK_Data/Managed/Assembly-CSharp-firstpass.dll"/>
+    
+    <!-- Photon dependencies -->
+    <Reference Include="$(GameDir)/Managed/PhotonUnityNetworking.dll"/>
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="Exists('$(DestDir)')">

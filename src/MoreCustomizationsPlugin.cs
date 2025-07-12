@@ -32,7 +32,8 @@ public partial class MoreCustomizationsPlugin : BaseUnityPlugin {
         Logger.LogInfo("Patching methods...");
         _patcher.PatchAll(typeof(Patches.PassportManagerPatch));
         _patcher.PatchAll(typeof(Patches.CharacterCustomizationPatch));
-        
+        _patcher.PatchAll(typeof(Patches.PlayerCustomizationDummyPatch));
+
         Logger.LogInfo($"{MyPluginInfo.PLUGIN_GUID} is loaded!");
     }
 

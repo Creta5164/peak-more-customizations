@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection.Emit;
 using HarmonyLib;
 using UnityEngine;
 
@@ -9,7 +11,7 @@ namespace MoreCustomizations.Patches;
 public class PassportManagerPatch {
     
     [HarmonyPatch(typeof(PassportManager), "Awake")]
-    [HarmonyPrefix]
+    [HarmonyPostfix]
     private static void Awake(PassportManager __instance) {
         
         var allCustomizationsData = Plugin.AllCustomizationsData;
@@ -75,5 +77,35 @@ public class PassportManagerPatch {
         customization.mouths      = mouths.ToArray();
         customization.fits        = fits.ToArray();
         customization.hats        = hats.ToArray();
+    }
+
+    [HarmonyPatch(typeof(PassportManager), "CameraIn")]
+    [HarmonyTranspiler]
+    public static IEnumerable<CodeInstruction> CameraInTranspiler(IEnumerable<CodeInstruction> instructions) {
+        //   this.dummyCamera.transform.DOLocalMove(new Vector3(0f, 1.65f, 1f), 0.2f, false);
+        // ->this.dummyCamera.transform.DOLocalMove(new Vector3(0f, 1.65f, 3f), 0.2f, false);
+        List<CodeInstruction> list = instructions.ToList();
+        foreach (CodeInstruction instruction in list) {
+            if (instruction.opcode == OpCodes.Ldc_R4 && instruction.operand != null && instruction.operand.Equals(1f)) {
+                instruction.operand = 3f;
+                break;
+            }
+        }
+        return list.AsEnumerable();
+    }
+
+    [HarmonyPatch(typeof(PassportManager), "CameraOut")]
+    [HarmonyTranspiler]
+    public static IEnumerable<CodeInstruction> CameraOutTranspiler(IEnumerable<CodeInstruction> instructions) {
+        //   this.dummyCamera.transform.DOLocalMove(new Vector3(0f, 1.05f, 1f), 0.2f, false);
+        // ->this.dummyCamera.transform.DOLocalMove(new Vector3(0f, 1.05f, 3f), 0.2f, false);
+        List<CodeInstruction> list = instructions.ToList();
+        foreach (CodeInstruction instruction in list) {
+            if (instruction.opcode == OpCodes.Ldc_R4 && instruction.operand != null && instruction.operand.Equals(1f)) {
+                instruction.operand = 3f;
+                break;
+            }
+        }
+        return list.AsEnumerable();
     }
 }
