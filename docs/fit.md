@@ -84,7 +84,7 @@ To preview your Icon you can hit `Num-0` to switch to the view of the Icon camer
 
 Once you're happy with your setup you can render the image via the `Render > Render Image` button or `F12`. 
 If you plan on making an outfit with gendered variants (i.e. use the existing shorts and skirt), make sure to generate an Icon for each.  
-![alt text](image.png)  
+![Example Icons rendered in Blender](img/fit-guide/example-icons.png)  
 And don't forget to save your images!
 
 ## Creating an Outfit 2/3 (Unity)
