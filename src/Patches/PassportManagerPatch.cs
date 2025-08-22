@@ -5,118 +5,158 @@ using HarmonyLib;
 using UnityEngine;
 
 using Plugin = MoreCustomizations.MoreCustomizationsPlugin;
+using MoreCustomizations.Data;
 
 namespace MoreCustomizations.Patches;
 
-public class PassportManagerPatch {
-    
+public class PassportManagerPatch
+{
+    private static Material materialTemplate;
+
     [HarmonyPatch(typeof(PassportManager), "Awake")]
     [HarmonyPostfix]
-    private static void Awake(PassportManager __instance) {
-        
+    private static void Awake(PassportManager __instance)
+    {
+
         var allCustomizationsData = Plugin.AllCustomizationsData;
-        
-        if (allCustomizationsData == null) {
-            
+
+        if (allCustomizationsData == null)
+        {
+
             Plugin.Logger.LogError("Customizations data are not loaded!");
             return;
         }
-        
-        if (allCustomizationsData.Count == 0) {
-            
+
+        if (allCustomizationsData.Count == 0)
+        {
+
             Plugin.Logger.LogWarning("There's no customizations data.");
             return;
         }
-        
+
         var customization = __instance.GetComponent<Customization>();
-        
-        var skins       = new List<CustomizationOption>(customization.skins);
+
+        var skins = new List<CustomizationOption>(customization.skins);
         var accessories = new List<CustomizationOption>(customization.accessories);
-        var eyes        = new List<CustomizationOption>(customization.eyes);
-        var mouths      = new List<CustomizationOption>(customization.mouths);
-        var fits        = new List<CustomizationOption>(customization.fits);
-        var hats        = new List<CustomizationOption>(customization.hats);
-        
-        foreach (var (type, customizationsData) in allCustomizationsData) {
-            
-            var customizationOptions = type switch {
-                
-                Customization.Type.Skin      => skins,
+        var eyes = new List<CustomizationOption>(customization.eyes);
+        var mouths = new List<CustomizationOption>(customization.mouths);
+        var fits = new List<CustomizationOption>(customization.fits);
+        var hats = new List<CustomizationOption>(customization.hats);
+
+        foreach (var (type, customizationsData) in allCustomizationsData)
+        {
+            var customizationOptions = type switch
+            {
+                Customization.Type.Skin => skins,
                 Customization.Type.Accessory => accessories,
-                Customization.Type.Eyes      => eyes,
-                Customization.Type.Mouth     => mouths,
-                Customization.Type.Fit       => fits,
-                Customization.Type.Hat       => hats,
-                
+                Customization.Type.Eyes => eyes,
+                Customization.Type.Mouth => mouths,
+                Customization.Type.Fit => fits,
+                Customization.Type.Hat => hats,
+
                 _ => null
             };
-            
+
             if (customizationOptions == null)
                 continue;
-            
-            foreach (var customizationData in customizationsData) {
-                
+
+            foreach (var customizationData in customizationsData)
+            {
+
                 if (!customizationData || !customizationData.IsValid())
                     continue;
-                
+
                 var option = ScriptableObject.CreateInstance<CustomizationOption>();
-        
+
                 option.requiredAchievement = ACHIEVEMENTTYPE.NONE;
-                
-                option.name    = customizationData.name;
-                option.type    = customizationData.Type;
+
+                option.name = customizationData.name;
+                option.type = customizationData.Type;
                 option.texture = customizationData.IconTexture;
-                
+                if (type == Customization.Type.Fit)
+                {
+                    var fitData = customizationData as CustomFit_V1;
+                    if(!fitData) continue;
+                    if (!materialTemplate) materialTemplate = Zorro.Core.Singleton<Customization>.Instance?.fits[0]?.fitMaterial ?? new Material(Shader.Find("W/Character"));
+
+                    option.fitMesh = fitData.FitMesh;
+                    option.isSkirt = fitData.isSkirt;
+                    option.noPants = fitData.noPants;
+                    option.drawUnderEye = fitData.drawUnderEye;
+
+                    option.fitMaterial = Object.Instantiate(materialTemplate);
+                    option.fitMaterial.SetTexture("_MainTex", fitData.FitMainTexture);
+
+                    option.fitMaterialShoes = Object.Instantiate(materialTemplate);
+                    option.fitMaterialShoes.SetTexture("_MainTex", fitData.FitShoeTexture);
+
+                    if (fitData.fitOverrideHatTexture)
+                    {
+                        option.fitMaterialOverrideHat = Object.Instantiate(materialTemplate);
+                        option.fitMaterialOverrideHat.SetTexture("_MainTex", fitData.fitOverrideHatTexture);
+                    }
+                    if (fitData.FitOverridePantsTexture)
+                    {
+                        option.fitMaterialOverrideHat = Object.Instantiate(materialTemplate);
+                        option.fitMaterialOverrideHat.SetTexture("_MainTex", fitData.FitOverridePantsTexture);
+                    }
+                }
                 customizationOptions.Add(option);
             }
         }
-        
-        customization.skins       = skins.ToArray();
+
+        customization.skins = skins.ToArray();
         customization.accessories = accessories.ToArray();
-        customization.eyes        = eyes.ToArray();
-        customization.mouths      = mouths.ToArray();
-        customization.fits        = fits.ToArray();
-        customization.hats        = hats.ToArray();
+        customization.eyes = eyes.ToArray();
+        customization.mouths = mouths.ToArray();
+        customization.fits = fits.ToArray();
+        customization.hats = hats.ToArray();
     }
 
     [HarmonyPatch(typeof(PassportManager), "CameraIn")]
     [HarmonyTranspiler]
-    public static IEnumerable<CodeInstruction> CameraInTranspiler(IEnumerable<CodeInstruction> instructions) {
-        
+    public static IEnumerable<CodeInstruction> CameraInTranspiler(IEnumerable<CodeInstruction> instructions)
+    {
+
         //this.dummyCamera.transform.DOLocalMove(new Vector3(0f, 1.65f, 1f), 0.2f, false);
         //                                                              ^^
         //                                                              Modifying this to 3f.
-        
-        foreach (CodeInstruction instruction in instructions) {
-            
-            if (instruction.opcode == OpCodes.Ldc_R4 && instruction.operand != null && instruction.operand.Equals(1f)) {
-                
+
+        foreach (CodeInstruction instruction in instructions)
+        {
+
+            if (instruction.opcode == OpCodes.Ldc_R4 && instruction.operand != null && instruction.operand.Equals(1f))
+            {
+
                 instruction.operand = 3f;
                 yield return instruction;
                 continue;
             }
-            
+
             yield return instruction;
         }
     }
 
     [HarmonyPatch(typeof(PassportManager), "CameraOut")]
     [HarmonyTranspiler]
-    public static IEnumerable<CodeInstruction> CameraOutTranspiler(IEnumerable<CodeInstruction> instructions) {
-        
+    public static IEnumerable<CodeInstruction> CameraOutTranspiler(IEnumerable<CodeInstruction> instructions)
+    {
+
         //this.dummyCamera.transform.DOLocalMove(new Vector3(0f, 1.05f, 1f), 0.2f, false);
         //                                                              ^^
         //                                                              Modifying this to 3f.
-        
-        foreach (CodeInstruction instruction in instructions) {
-            
-            if (instruction.opcode == OpCodes.Ldc_R4 && instruction.operand != null && instruction.operand.Equals(1f)) {
-                
+
+        foreach (CodeInstruction instruction in instructions)
+        {
+
+            if (instruction.opcode == OpCodes.Ldc_R4 && instruction.operand != null && instruction.operand.Equals(1f))
+            {
+
                 instruction.operand = 3f;
                 yield return instruction;
                 continue;
             }
-            
+
             yield return instruction;
         }
     }
