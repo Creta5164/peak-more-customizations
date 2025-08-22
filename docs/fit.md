@@ -8,7 +8,7 @@ This guide assumes you have some basic understanding of blender and skinning/rig
 After creating an outfit in blender you'll have to export it for further processing in Unity.
 
 ### The Template File
-You can find a template `.blend` file in `docs/templates/peak-fit-template.blend`.
+You can find an [outfit template `.blend` file](docs/templates/peak-fit-template.blend) in `docs/templates/peak-fit-template.blend`.
 When you open the template you should be greeted by the 'Seagull' outfit in its bind-pose.  
 ![first view of peak-fit-template.blend](img/fit-guide/template-hello.png)  
   
@@ -25,7 +25,7 @@ Based on how More Customizations currently handles the material creation, you ca
 You can mostly reuse the existing materials from the template, however you will probably want to use your own texture for the 'Fit' material, which is initially the `M_Scout_Seagull` material.  
 The template file contains a shader sub-graph with the name `PEAK_Lighting` which you can use to roughly replicate the look of PEAK.  
 ![Shader Graph that aims to replicate the look of the in-game W/Character shader](img/fit-guide/PEAK-lighting-material-setup.png)  
-You can either paint over the existing texture or create your own material by either copying the M_Scout_Seagull or replicating the shader graph and then swapping out the `Scouts Tex Seagull.png` texture with your own.
+You can either paint over the existing texture or create your own material by either copying the M_Scout_Seagull or replicating the shader graph and then swapping out the `Scouts Tex Seagull.png` texture with your own. (usually `1024x1024` is a good resolution to aim for)
 
 
 ### Copying Existing Boneweights
