@@ -8,7 +8,7 @@ This guide assumes you have some basic understanding of blender and skinning/rig
 After creating an outfit in blender you'll have to export it for further processing in Unity.
 
 ### The Template File
-You can find an [outfit template `.blend` file](docs/templates/peak-fit-template.blend) in `docs/templates/peak-fit-template.blend`.
+You can find an [outfit template `.blend` file](templates/peak-fit-template.blend) in `docs/templates/peak-fit-template.blend`.
 When you open the template you should be greeted by the 'Seagull' outfit in its bind-pose.  
 ![first view of peak-fit-template.blend](img/fit-guide/template-hello.png)  
   
