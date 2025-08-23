@@ -54,7 +54,7 @@ Sorry for inconvenience!
 - [Mouth](https://github.com/creta5164/peak-more-customizations/tree/main/docs/mouth.md)
 - [Eyes](https://github.com/creta5164/peak-more-customizations/tree/main/docs/eyes.md)
 - [Hat](https://github.com/creta5164/peak-more-customizations/tree/main/docs/hat.md)
-- [Outfit](docs/fit.md)
+- [Outfit](https://github.com/creta5164/peak-more-customizations/tree/main/docs/fit.md)
 - [Build asset bundle](https://github.com/creta5164/peak-more-customizations/tree/main/docs/build-asset-bundle.md)
 
 # Build from source

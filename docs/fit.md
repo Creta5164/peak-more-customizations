@@ -2,13 +2,13 @@
 Requires the Unity Editor (tested with 6000.0.45f but most Unity5 versions should work)  
 *This guide is based on Blender (4.5).*
 
-## Creating an Outfit 1/3 (Blender)
+## Creating an Outfit 1/2 (Blender)
 This guide uses Blender 4.5 to create the outfit model, but most modern blender versions should work.
 This guide assumes you have some basic understanding of blender and skinning/rigging workflows.
 After creating an outfit in blender you'll have to export it for further processing in Unity.
 
 ### The Template File
-You can find an [outfit template `.blend` file](templates/peak-fit-template.blend) in `docs/templates/peak-fit-template.blend`.
+You can find an [outfit template `.blend` file in `docs/templates/peak-fit-template.blend`](templates/peak-fit-template.blend).
 When you open the template you should be greeted by the 'Seagull' outfit in its bind-pose.  
 ![first view of peak-fit-template.blend](img/fit-guide/template-hello.png)  
   
@@ -80,37 +80,18 @@ To use this setup, scale/position the clipping box so that it captures all of th
 Once you are happy with your clipping region you can re-position the `Icon Camera` if necessary, although keeping it at the same position is generally preferable as the resulting icon will be perfectly aligned with the other outfit icons.
 To pick which `pants` object should be used, the options being `Shorts`, `Skirt` or `None` you can configure the Geometry Nodes via the modifier tab 
 ![Icon setup geometry nodes settings](img/fit-guide/icon-settings.png)  
-To preview your Icon you can hit `Num-0` to switch to the view of the Icon camera.
+To preview your Icon you can hit `Num-0` or select the `Icon Camera` and hit `W/RMB > Set Active Camera` to switch to the view of the `Icon Camera`.
 
 Once you're happy with your setup you can render the image via the `Render > Render Image` button or `F12`. 
 If you plan on making an outfit with gendered variants (i.e. use the existing shorts and skirt), make sure to generate an Icon for each.  
 ![Example Icons rendered in Blender](img/fit-guide/example-icons.png)  
 And don't forget to save your images!
 
-## Creating an Outfit 2/3 (Unity)
+## Creating an Outfit 2/2 (Unity)
 Once you're done creating the mesh for your outfit in Blender you can move onto configuring it for use in PEAK.
+The rest of the steps are analogous to other cosmetics and can be found in the [build-asset-bundle](docs/build-asset-bundle.md) guide.
 
-### Import the 'More Customizations' Unity Package
-Make sure whatever Unity Project you have opened to build the AssetBundle from has the 'More Customizations' Package installed.  
-``https://github.com/Creta5164/peak-more-customizations.git?path=unity-package``  
-For more information on installing the package see 
-[build-asset-bundle](docs/build-asset-bundle.md)
-
-### Importing the Outfit
-After you've added the necessary package, you can import your newly created outfit into the Unity Project.  
-You should not have to change any import settings due to the specific export settings we chose.  
-You should however see a console message saying `Reordered bones for <your_outfit_name> to match PEAK™ MainMesh-es!` in the Console window and at the very bottom of the window. 
-This message indicates that the bone order was changed successfully to match that of the original PEAK outfits.
-
-Since the Meshes in PEAK have an unusual bone order that is not sorted alphabetically, this manual reordering is necessary to allow for reusing the same SkinnedMeshRenderer at runtime that the original outfit meshes use.
-For this purpose the `unity-package` contains an AssetPostprocessor called `BoneOrderFixer`, that fixes the bone order automatically. 
-
-If you did not get any message or a message saying `Bones do not match required structure. Missing at least one bone '<some bone>'. Won't post-process this models boneorder` then your exported file either had no armature / bone-weights at all (indicated by no message) or it had a different bone structure/naming scheme (indicated by the above message) than that of the template.  
-In that case double check that you've done all of the export steps correctly and that you did not rename any bones in the template file.
-
-## Creating an Outfit 3/3 (Unity)
-The rest of the steps are analogous to other cosmetics and can be found in the [build-asset-bundle](docs/build-asset-bundle.md) guide. However for a thorough explanation of the specific settings of the Custom_Fit_V1 Asset, see the table below:
-
+### Custom_Fit_V1 Cheat Sheet
 | Field                         | Description                                                                           |
 |-------------------------------|---------------------------------------------------------------------------------------|
 | Icon                          | The Texture for the Icon in the Passport                                              |
@@ -122,3 +103,18 @@ The rest of the steps are analogous to other cosmetics and can be found in the [
 | Fit Override Pants Texture    | The color texture that can override the hat material. Only works on hats 0 and 1. Leave blank to use the default hat material.                                                                            |
 | Is Skirt                      | Indicated whether the skirt or shorts mesh should be enabled for this outfit variant. |
 | No Pants                      | If true, hides both the skirt and shorts mesh for this outfit. Used for outfits like the Astronaut suit, that have no gendered variants                                                                      |
+
+## Troubleshooting
+### Bone Order
+If your mesh looks all scrambled up like this:
+![incorrect bone order mesh](img/fit-guide/incorrect-bone-order.png)
+after testing it in-game, you're most likely victim of an incorrect bone-order.
+
+Since the outfit meshes in PEAK have an unusual bone order that is not sorted alphabetically, this manual reordering is necessary to allow for reusing the same SkinnedMeshRenderer at runtime that the original outfit meshes use.
+For this purpose the `unity-package` contains an AssetPostprocessor called `BoneOrderFixer`, that should fix the bone order automatically. 
+
+After importing your fit into Unity you should see a console message saying `Reordered bones for <your_outfit_name> to match PEAK™ MainMesh-es!` in the `Console` window and at the very bottom of the editor. 
+This message indicates that the bone order was changed successfully to match that of the original PEAK outfits.
+
+If you did not get any message or a message saying `Bones do not match required structure. Missing at least one bone '<some bone>'. Won't post-process this models boneorder` then your exported file either had no armature / bone-weights at all (indicated by no message) or it had a different bone structure/naming scheme than that of the template (indicated by the above message).  
+In those cases double check that you've done all of the export steps correctly and that you did not rename any bones in the template file.
