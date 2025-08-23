@@ -88,9 +88,9 @@ public class PassportManagerPatch
                     }
 
                     option.fitMesh = fitData.FitMesh;
-                    option.isSkirt = fitData.isSkirt;
-                    option.noPants = fitData.noPants;
-                    option.drawUnderEye = fitData.drawUnderEye;
+                    option.isSkirt = fitData.IsSkirt;
+                    option.noPants = fitData.NoPants;
+                    option.drawUnderEye = fitData.DrawUnderEye;
 
                     option.fitMaterial = Object.Instantiate(materialTemplate);
                     option.fitMaterial.SetTexture("_MainTex", fitData.FitMainTexture);
@@ -98,10 +98,10 @@ public class PassportManagerPatch
                     option.fitMaterialShoes = Object.Instantiate(materialTemplate);
                     option.fitMaterialShoes.SetTexture("_MainTex", fitData.FitShoeTexture);
 
-                    if (fitData.fitOverrideHatTexture)
+                    if (fitData.FitOverrideHatTexture)
                     {
                         option.fitMaterialOverrideHat = Object.Instantiate(materialTemplate);
-                        option.fitMaterialOverrideHat.SetTexture("_MainTex", fitData.fitOverrideHatTexture);
+                        option.fitMaterialOverrideHat.SetTexture("_MainTex", fitData.FitOverrideHatTexture);
                     }
                     if (fitData.FitOverridePantsTexture)
                     {
