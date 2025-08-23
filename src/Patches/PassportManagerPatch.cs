@@ -76,8 +76,16 @@ public class PassportManagerPatch
                 if (type == Customization.Type.Fit)
                 {
                     var fitData = customizationData as CustomFit_V1;
-                    if(!fitData) continue;
-                    if (!materialTemplate) materialTemplate = Zorro.Core.Singleton<Customization>.Instance?.fits[0]?.fitMaterial ?? new Material(Shader.Find("W/Character"));
+                    if (!fitData) continue;
+                    if (!materialTemplate)
+                    {
+                        materialTemplate = customization?.fits[0]?.fitMaterial;
+                        if (!materialTemplate)
+                        {
+                            Plugin.Logger.LogWarning("Could not find existing fitMaterial to copy! Using fallback material, expect some visual errors");
+                            materialTemplate = FitMaterialFallback.MaterialTemplate;
+                        }
+                    }
 
                     option.fitMesh = fitData.FitMesh;
                     option.isSkirt = fitData.isSkirt;
@@ -97,8 +105,8 @@ public class PassportManagerPatch
                     }
                     if (fitData.FitOverridePantsTexture)
                     {
-                        option.fitMaterialOverrideHat = Object.Instantiate(materialTemplate);
-                        option.fitMaterialOverrideHat.SetTexture("_MainTex", fitData.FitOverridePantsTexture);
+                        option.fitMaterialOverridePants = Object.Instantiate(materialTemplate);
+                        option.fitMaterialOverridePants.SetTexture("_MainTex", fitData.FitOverridePantsTexture);
                     }
                 }
                 customizationOptions.Add(option);
