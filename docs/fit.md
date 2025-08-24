@@ -82,7 +82,7 @@ You probably want an Icon for your outfit that fits in the general style of the 
 ![Icon setup collection](img/fit-guide/icon-setup.png)  
 To use this setup, scale/position the clipping box so that it captures all of the important parts of your outfit. You should see the icon mesh update in real time as you move it around. 
 Once you are happy with your clipping region you can re-position the `Icon Camera` if necessary, although keeping it at the same position is generally preferable as the resulting icon will be perfectly aligned with the other outfit icons.
-To pick which `pants` object should be used, the options being `Shorts`, `Skirt` or `None` you can configure the Geometry Nodes via the modifier tab 
+To pick which `pants` object should be used, the options being `Shorts`, `Skirt` or `None` you can configure the Geometry Nodes via the modifier tab  
 ![Icon setup geometry nodes settings](img/fit-guide/icon-settings.png)  
 To preview your Icon you can hit `Num-0` or select the `Icon Camera` and hit `W/RMB > Set Active Camera` to switch to the view of the `Icon Camera`.
 
@@ -110,8 +110,8 @@ The rest of the steps are analogous to other cosmetics and can be found in the [
 
 ## Troubleshooting
 ### Bone Order
-If your mesh looks all scrambled up like this:
-![incorrect bone order mesh](img/fit-guide/incorrect-bone-order.png)
+If your mesh looks all scrambled up like this:  
+![incorrect bone order mesh](img/fit-guide/incorrect-bone-order.png)  
 after testing it in-game, you're most likely victim of an incorrect bone-order.
 
 Since the outfit meshes in PEAK have an unusual bone order that is not sorted alphabetically, this manual reordering is necessary to allow for reusing the same SkinnedMeshRenderer at runtime that the original outfit meshes use.
