@@ -35,9 +35,7 @@ public class CharacterCustomizationPatch {
         
         if (!_characterShader)
             _characterShader = Shader.Find("W/Character");
-        
-        //TODO: Instantiate prefab of fits
-        
+
         //Hats
         if (allCustomizationsData.TryGetValue(Customization.Type.Hat, out var customizationsData)) {
             
