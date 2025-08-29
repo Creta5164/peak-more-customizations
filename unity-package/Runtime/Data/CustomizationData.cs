@@ -14,6 +14,7 @@ namespace MoreCustomizations.Data {
     public abstract partial class CustomEyesData      : CustomizationData { }
     public abstract partial class CustomMouthData     : CustomizationData { }
     public abstract partial class CustomHatData       : CustomizationData { }
+    public abstract partial class CustomFitData       : CustomizationData { }
 }
 
 #if MOD_AREA
@@ -44,6 +45,10 @@ namespace MoreCustomizations.Data {
     partial class CustomHatData {
         
         public sealed override Type Type => Type.Hat;
+    }
+
+    partial class CustomFitData { 
+        public sealed override Type Type => Type.Fit;
     }
 }
 #endif
