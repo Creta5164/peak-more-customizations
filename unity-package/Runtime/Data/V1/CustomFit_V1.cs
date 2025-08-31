@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace MoreCustomizations.Data
@@ -14,15 +15,6 @@ namespace MoreCustomizations.Data
             "The texture for the icon in the Passport"
         )]
         public Texture Icon { get; internal set; }
-        
-        public override Texture IconTexture
-            => Icon;
-        
-        public override bool IsValid()
-            => Icon
-            && FitMesh
-            && FitMainTexture
-            && FitShoeTexture;
         
         [field: SerializeField]
         [field: Tooltip(
@@ -71,7 +63,42 @@ namespace MoreCustomizations.Data
             "If true, hides both the skirt and shorts mesh for this outfit. Used for outfits like the Astronaut suit, that have no gendered variants."
         )]
         public bool NoPants { get; internal set; }
-
-
+        
+        public override Texture IconTexture
+            => Icon;
+        
+        public override IEnumerable<ValidateStatus> GetValidateContentStatuses() {
+            
+            bool isInvalid = false;
+            
+            if (!Icon) {
+                
+                yield return ValidateStatus.Error($"{nameof(Icon)} is empty.");
+                isInvalid = true;
+            }
+            
+            if (!FitMesh) {
+                
+                yield return ValidateStatus.Error($"{nameof(FitMesh)} is empty.");
+                isInvalid = true;
+            }
+            
+            if (!FitMainTexture) {
+                
+                yield return ValidateStatus.Error($"{nameof(FitMainTexture)} is empty.");
+                isInvalid = true;
+            }
+            
+            if (!FitShoeTexture) {
+                
+                yield return ValidateStatus.Error($"{nameof(FitShoeTexture)} is empty.");
+                isInvalid = true;
+            }
+            
+            if (isInvalid)
+                yield break;
+            
+            yield return ValidateStatus.Valid;
+        }
     }
 }

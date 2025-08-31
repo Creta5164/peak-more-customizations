@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace MoreCustomizations.Data {
@@ -6,7 +7,7 @@ namespace MoreCustomizations.Data {
         
         public abstract Texture IconTexture { get; }
         
-        public abstract bool IsValid();
+        public abstract IEnumerable<ValidateStatus> GetValidateContentStatuses();
     }
     
     //NOTE: These are for determining customization types statically, must be empty body.
