@@ -37,7 +37,7 @@ You can check if your weights are correct by posing the armature in `Pose Mode`.
 For modeling, texturing etc. and for [generating an Icon](#generating-an-icon) you should change back to `Rest Position` once you're done testing your weights or reset all of the bones transforms to the rest position.
 
 ### Vertex Colors:
-Because PEAK uses Vertex Colors to determine which parts of the outfits mesh should be visible from first person you'll have to paint yours accordingly. As you can see in the image of the template below, dark colors actually indicate visibility, while bright vertex colors mark parts that are hidden in first person.
+Because PEAK uses Vertex Colors to determine which parts of the outfits mesh should be visible from first person you'll have to paint yours accordingly. As you can see in the image of the template below, dark colors actually indicate visibility, while bright vertex colors mark parts that are hidden in first person.  
 ![Template outfit vertex coloring](img/fit-guide/template-vertex-colors.png)  
 Anything between black and white will be partially hidden according to its brightness via a dither pattern.
 
