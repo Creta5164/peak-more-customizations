@@ -11,10 +11,10 @@ namespace MoreCustomizations.Data {
         
         [field: SerializeField]
         public Texture Texture { get; internal set; }
-
+        
         public override Texture IconTexture
             => Texture;
-
+        
         public override bool IsValid()
             => Texture;
     }

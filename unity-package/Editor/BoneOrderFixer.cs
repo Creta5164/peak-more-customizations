@@ -128,7 +128,8 @@ namespace MoreCustomizations.Tools {
             "Collar_L",
             "Collar_L.001",
             "Sash_F",
-            "Sash_B" };
+            "Sash_B"
+        };
         
         void OnPostprocessModel(GameObject prefab) {
             
@@ -160,26 +161,25 @@ namespace MoreCustomizations.Tools {
                 transforms.Add(boneTransform);
             }
             
-            //TODO: Ask what permut meaning
-            var permut = new Dictionary<int, int>();
+            var permutations = new Dictionary<int, int>();
             
             for (int index = 0; index < skinnedMeshRenderer.bones.Length; index++)
-                permut[index] = transforms.IndexOf(skinnedMeshRenderer.bones[index]);
+                permutations[index] = transforms.IndexOf(skinnedMeshRenderer.bones[index]);
             
             var boneWeights = skinnedMeshRenderer.sharedMesh.boneWeights;
             
             for (int i = 0; i < boneWeights.Length; i++) {
                 
-                boneWeights[i].boneIndex0 = permut[boneWeights[i].boneIndex0];
-                boneWeights[i].boneIndex1 = permut[boneWeights[i].boneIndex1];
-                boneWeights[i].boneIndex2 = permut[boneWeights[i].boneIndex2];
-                boneWeights[i].boneIndex3 = permut[boneWeights[i].boneIndex3];
+                boneWeights[i].boneIndex0 = permutations[boneWeights[i].boneIndex0];
+                boneWeights[i].boneIndex1 = permutations[boneWeights[i].boneIndex1];
+                boneWeights[i].boneIndex2 = permutations[boneWeights[i].boneIndex2];
+                boneWeights[i].boneIndex3 = permutations[boneWeights[i].boneIndex3];
             }
             
             var bindPoses = new Matrix4x4[skinnedMeshRenderer.sharedMesh.bindposes.Length];
             
             for (int index = 0; index < bindPoses.Length; index++)
-                bindPoses[permut[index]] = skinnedMeshRenderer.sharedMesh.bindposes[index];
+                bindPoses[permutations[index]] = skinnedMeshRenderer.sharedMesh.bindposes[index];
             
             skinnedMeshRenderer.bones = transforms.ToArray();
             
