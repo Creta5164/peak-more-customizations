@@ -19,7 +19,10 @@ namespace MoreCustomizations.Data
             => Icon;
         
         public override bool IsValid()
-            => true;
+            => Icon
+            && FitMesh
+            && FitMainTexture
+            && FitShoeTexture;
         
         [field: SerializeField]
         [field: Tooltip(
