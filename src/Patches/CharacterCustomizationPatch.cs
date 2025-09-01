@@ -51,7 +51,7 @@ public class CharacterCustomizationPatch {
             
             foreach (var customizationData in customizationsData.OfType<CustomHat_V1>()) {
                 
-                if (!customizationData || !customizationData.IsValid())
+                if (!customizationData || !customizationData.IsValid)
                     continue;
                 
                 GameObject hatInstance = Object.Instantiate(customizationData.Prefab, hatTransform, false);

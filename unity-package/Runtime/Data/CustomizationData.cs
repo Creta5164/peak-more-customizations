@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +7,10 @@ namespace MoreCustomizations.Data {
     public abstract partial class CustomizationData : ScriptableObject {
         
         public abstract Texture IconTexture { get; }
+        
+        public bool IsValid
+            => GetValidateContentStatuses()
+                .All(static status => status.Type != ValidateStatus.ValidateType.Error);
         
         public abstract IEnumerable<ValidateStatus> GetValidateContentStatuses();
     }

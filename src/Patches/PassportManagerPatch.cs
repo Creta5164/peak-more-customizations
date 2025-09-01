@@ -60,7 +60,7 @@ public class PassportManagerPatch {
             
             foreach (var customizationData in customizationsData) {
                 
-                if (!customizationData || !customizationData.IsValid())
+                if (!customizationData || !customizationData.IsValid)
                     continue;
                 
                 var option = ScriptableObject.CreateInstance<CustomizationOption>();
