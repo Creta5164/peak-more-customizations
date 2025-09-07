@@ -6,15 +6,12 @@ This mod manages to allow adding more customization options by utilizing AssetBu
 
 Most parts are inspired from [CustomHats](https://github.com/radsi/PEAK-CustomHats).
 
-# Breaking change
+# Breaking change (1.1.4)
 
-Starting from version `1.1.0`, version `1.0.x`'s file is incompatible due huge refactor of data structure.
+![Package version](https://github.com/Creta5164/peak-more-customizations/raw/main/breaking-change-package-version.png)
 
-Please follow documentations again in
-[Build asset bundle](https://github.com/creta5164/peak-more-customizations/tree/main/docs/build-asset-bundle.md) part
-if you made with it.
-
-Sorry for inconvenience!
+Starting from version `1.1.4`, there's new version of tool package,
+you can update your tool by pressing 'Update' button of tool package in package manager.
 
 # Features
 
@@ -24,6 +21,7 @@ Sorry for inconvenience!
   - Mouth
   - Eye
   - Hat
+  - Outfit
 
 # Limitation
 
@@ -53,6 +51,7 @@ Sorry for inconvenience!
 - [Mouth](https://github.com/creta5164/peak-more-customizations/tree/main/docs/mouth.md)
 - [Eyes](https://github.com/creta5164/peak-more-customizations/tree/main/docs/eyes.md)
 - [Hat](https://github.com/creta5164/peak-more-customizations/tree/main/docs/hat.md)
+- [Outfit](https://github.com/creta5164/peak-more-customizations/tree/main/docs/fit.md)
 - [Build asset bundle](https://github.com/creta5164/peak-more-customizations/tree/main/docs/build-asset-bundle.md)
 
 # Build from source

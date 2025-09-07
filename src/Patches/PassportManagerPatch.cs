@@ -3,12 +3,16 @@ using System.Reflection.Emit;
 using System.Collections.Generic;
 using HarmonyLib;
 using UnityEngine;
+using MoreCustomizations.Data;
+using MoreCustomizations.Helpers;
 
 using Plugin = MoreCustomizations.MoreCustomizationsPlugin;
 
 namespace MoreCustomizations.Patches;
 
 public class PassportManagerPatch {
+    
+    private static Material materialTemplate;
     
     [HarmonyPatch(typeof(PassportManager), "Awake")]
     [HarmonyPostfix]
@@ -56,16 +60,62 @@ public class PassportManagerPatch {
             
             foreach (var customizationData in customizationsData) {
                 
-                if (!customizationData || !customizationData.IsValid())
+                if (!customizationData || !customizationData.IsValid)
                     continue;
                 
                 var option = ScriptableObject.CreateInstance<CustomizationOption>();
-        
+                
                 option.requiredAchievement = ACHIEVEMENTTYPE.NONE;
                 
                 option.name    = customizationData.name;
                 option.type    = customizationData.Type;
                 option.texture = customizationData.IconTexture;
+                
+                if (type == Customization.Type.Fit) {
+                    
+                    var fitData = customizationData as CustomFit_V1;
+                    
+                    if (!fitData)
+                        continue;
+                    
+                    if (!materialTemplate) {
+                        
+                        materialTemplate = customization?.fits.FirstOrDefault()?.fitMaterial;
+                        
+                        if (!materialTemplate) {
+                            
+                            Plugin.Logger.LogWarning(
+                                "Could not find existing fitMaterial to copy! Using fallback material, "
+                                + "expect some visual errors"
+                            );
+                            
+                            materialTemplate = FitMaterialFallback.MaterialTemplate;
+                        }
+                    }
+                    
+                    option.fitMesh      = fitData.FitMesh;
+                    option.isSkirt      = fitData.IsSkirt;
+                    option.noPants      = fitData.NoPants;
+                    option.drawUnderEye = fitData.DrawUnderEye;
+                    
+                    option.fitMaterial = Object.Instantiate(materialTemplate);
+                    option.fitMaterial.SetTexture("_MainTex", fitData.FitMainTexture);
+                    
+                    option.fitMaterialShoes = Object.Instantiate(materialTemplate);
+                    option.fitMaterialShoes.SetTexture("_MainTex", fitData.FitShoeTexture);
+                    
+                    if (fitData.FitOverrideHatTexture) {
+                        
+                        option.fitMaterialOverrideHat = Object.Instantiate(materialTemplate);
+                        option.fitMaterialOverrideHat.SetTexture("_MainTex", fitData.FitOverrideHatTexture);
+                    }
+                    
+                    if (fitData.FitOverridePantsTexture) {
+                        
+                        option.fitMaterialOverridePants = Object.Instantiate(materialTemplate);
+                        option.fitMaterialOverridePants.SetTexture("_MainTex", fitData.FitOverridePantsTexture);
+                    }
+                }
                 
                 customizationOptions.Add(option);
             }
@@ -89,7 +139,9 @@ public class PassportManagerPatch {
         
         foreach (CodeInstruction instruction in instructions) {
             
-            if (instruction.opcode == OpCodes.Ldc_R4 && instruction.operand != null && instruction.operand.Equals(1f)) {
+            if (instruction.opcode == OpCodes.Ldc_R4
+             && instruction.operand != null
+             && instruction.operand.Equals(1f)) {
                 
                 instruction.operand = 3f;
                 yield return instruction;
@@ -99,7 +151,7 @@ public class PassportManagerPatch {
             yield return instruction;
         }
     }
-
+    
     [HarmonyPatch(typeof(PassportManager), "CameraOut")]
     [HarmonyTranspiler]
     public static IEnumerable<CodeInstruction> CameraOutTranspiler(IEnumerable<CodeInstruction> instructions) {
@@ -110,7 +162,9 @@ public class PassportManagerPatch {
         
         foreach (CodeInstruction instruction in instructions) {
             
-            if (instruction.opcode == OpCodes.Ldc_R4 && instruction.operand != null && instruction.operand.Equals(1f)) {
+            if (instruction.opcode == OpCodes.Ldc_R4
+             && instruction.operand != null
+             && instruction.operand.Equals(1f)) {
                 
                 instruction.operand = 3f;
                 yield return instruction;

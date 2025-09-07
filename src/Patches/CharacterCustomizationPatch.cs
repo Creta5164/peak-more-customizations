@@ -35,9 +35,7 @@ public class CharacterCustomizationPatch {
         
         if (!_characterShader)
             _characterShader = Shader.Find("W/Character");
-        
-        //TODO: Instantiate prefab of fits
-        
+
         //Hats
         if (allCustomizationsData.TryGetValue(Customization.Type.Hat, out var customizationsData)) {
             
@@ -53,7 +51,7 @@ public class CharacterCustomizationPatch {
             
             foreach (var customizationData in customizationsData.OfType<CustomHat_V1>()) {
                 
-                if (!customizationData || !customizationData.IsValid())
+                if (!customizationData || !customizationData.IsValid)
                     continue;
                 
                 GameObject hatInstance = Object.Instantiate(customizationData.Prefab, hatTransform, false);

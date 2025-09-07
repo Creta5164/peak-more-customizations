@@ -1,3 +1,5 @@
+using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace MoreCustomizations.Data {
@@ -6,7 +8,11 @@ namespace MoreCustomizations.Data {
         
         public abstract Texture IconTexture { get; }
         
-        public abstract bool IsValid();
+        public bool IsValid
+            => GetValidateContentStatuses()
+                .All(static status => status.Type != ValidateStatus.ValidateType.Error);
+        
+        public abstract IEnumerable<ValidateStatus> GetValidateContentStatuses();
     }
     
     //NOTE: These are for determining customization types statically, must be empty body.
@@ -14,6 +20,7 @@ namespace MoreCustomizations.Data {
     public abstract partial class CustomEyesData      : CustomizationData { }
     public abstract partial class CustomMouthData     : CustomizationData { }
     public abstract partial class CustomHatData       : CustomizationData { }
+    public abstract partial class CustomFitData       : CustomizationData { }
 }
 
 #if MOD_AREA
@@ -44,6 +51,10 @@ namespace MoreCustomizations.Data {
     partial class CustomHatData {
         
         public sealed override Type Type => Type.Hat;
+    }
+
+    partial class CustomFitData { 
+        public sealed override Type Type => Type.Fit;
     }
 }
 #endif

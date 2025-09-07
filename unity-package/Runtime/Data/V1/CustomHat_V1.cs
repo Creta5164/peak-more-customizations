@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace MoreCustomizations.Data {
@@ -44,8 +45,26 @@ namespace MoreCustomizations.Data {
         public override Texture IconTexture
             => Icon;
         
-        public override bool IsValid()
-            => Icon
-            && Prefab;
+        public override IEnumerable<ValidateStatus> GetValidateContentStatuses() {
+            
+            bool isInvalid = false;
+            
+            if (!Icon) {
+                
+                yield return ValidateStatus.Error($"{nameof(Icon)} is empty.");
+                isInvalid = true;
+            }
+            
+            if (!Prefab) {
+                
+                yield return ValidateStatus.Error($"{nameof(Prefab)} is empty.");
+                isInvalid = true;
+            }
+            
+            if (isInvalid)
+                yield break;
+            
+            yield return ValidateStatus.Valid;
+        }
     }
 }

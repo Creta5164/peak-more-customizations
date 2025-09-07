@@ -88,6 +88,32 @@ public partial class MoreCustomizationsPlugin : BaseUnityPlugin {
         
         foreach (CustomizationData customizationData in fetchedCustomizationData) {
             
+            var warningLevelValidationStatuses = customizationData.GetValidateContentStatuses()
+                .Where(static status => status.Type != ValidateStatus.ValidateType.Valid);
+            
+            bool isInvalid = false;
+            
+            foreach (ValidateStatus validationStatus in warningLevelValidationStatuses) {
+                
+                isInvalid |= validationStatus.Type == ValidateStatus.ValidateType.Error;
+                
+                switch (validationStatus.Type) {
+                    
+                    case ValidateStatus.ValidateType.Warning:
+                        
+                        Logger.LogWarning($"[Validation Warning:{customizationData.name}] {validationStatus.Message}");
+                        break;
+                    
+                    case ValidateStatus.ValidateType.Error:
+                        
+                        Logger.LogError($"[Validation Error:{customizationData.name}] {validationStatus.Message}");
+                        break;
+                }
+            }
+            
+            if (isInvalid)
+                continue;
+            
             var type = customizationData.Type;
             
             if (!loadedCustomizationsData.TryGetValue(type, out var loadedCustomizations)) {
