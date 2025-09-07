@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <AssemblyName>MoreCustomizations</AssemblyName>
     <Product>MoreCustomizations</Product>
-    <Version>1.1.4</Version>
+    <Version>1.1.5</Version>
     <LangVersion>latest</LangVersion>
     <RestoreAdditionalProjectSources>
       https://api.nuget.org/v3/index.json;

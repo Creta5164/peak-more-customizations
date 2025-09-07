@@ -8,6 +8,8 @@ Most parts are inspired from [CustomHats](https://github.com/radsi/PEAK-CustomHa
 
 # Breaking change (1.1.4)
 
+More Customizations now supports **fit(wear) customization**!
+
 ![Package version](https://github.com/Creta5164/peak-more-customizations/raw/main/breaking-change-package-version.png)
 
 Starting from version `1.1.4`, there's new version of tool package,
@@ -25,8 +27,7 @@ you can update your tool by pressing 'Update' button of tool package in package 
 
 # Limitation
 
-- Skin and wear is not supported at the moment. (contribution are welcome!)
-- It'll only show correctly if other players has exactly same customization files.
+- It'll only show correctly if other players has exactly same customization mods or files.
   - This is caused by save data are order-dependent.
 
 # Dependencies

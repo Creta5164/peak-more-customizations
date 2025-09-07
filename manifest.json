@@ -1,7 +1,7 @@
 {
     "name": "More_Customizations",
     "description": "This mod manages to allow adding more customization options by utilizing AssetBundle.",
-    "version_number": "1.1.4",
+    "version_number": "1.1.5",
     "dependencies": [
         "BepInEx-BepInExPack_PEAK-5.4.2403",
         "Radsi2-PassporPagination-1.0.0"
