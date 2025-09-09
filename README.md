@@ -2,7 +2,7 @@
 
 ![Thumbnail](https://github.com/Creta5164/peak-more-customizations/raw/main/icon.png)
 
-This mod manages to allow adding more customization options by utilizing AssetBundle.
+This mod makes it easy to create and add cosmetic-related content.
 
 Most parts are inspired from [CustomHats](https://github.com/radsi/PEAK-CustomHats).
 
