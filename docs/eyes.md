@@ -33,4 +33,4 @@ I can show you how I created the goat eyes below as an example, and result.
     </tr>
 </table>
 
-1. [Now you are ready to build asset bundle!](https://github.com/Creta5164/peak-more-customizations/tree/main/docs/build-asset-bundle.md)
+1. [Now you are ready to build asset bundle!](build-asset-bundle.md)

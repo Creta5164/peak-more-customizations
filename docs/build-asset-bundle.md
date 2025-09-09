@@ -145,4 +145,4 @@ Note that you should take `<your_asset_bundle_name>.pcab` file!
 Place this file anywhere in the `plugins` folder of `BepInEx` to finish it!  
 The mod will recognize and load your customization file.
 
-To share your customization file, you can include it in your ThunderStore and publish it!
+Next step is [Publish content to ThunderStore](publish-content.md).

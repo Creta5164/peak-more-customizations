@@ -54,8 +54,16 @@ you can update your tool by pressing 'Update' button of tool package in package 
 - [Hat](https://github.com/creta5164/peak-more-customizations/tree/main/docs/hat.md)
 - [Outfit](https://github.com/creta5164/peak-more-customizations/tree/main/docs/fit.md)
 - [Build asset bundle](https://github.com/creta5164/peak-more-customizations/tree/main/docs/build-asset-bundle.md)
+- [**Publish content to ThunderStore**](https://github.com/creta5164/peak-more-customizations/tree/main/docs/publish-content.md)
+
+> [!NOTE]  
+> If you need troubleshooting to make/publish your customization, join [PEAK Modding Community Discord](https://discord.gg/SAw86z24rB)!
 
 # Build from source
+
+> [!IMPORTANT]  
+> This is only necessary when developing/contributing More Customizations!  
+> If you looking for uploading your content to ThunderStore, check [Publish content to ThunderStore](https://github.com/creta5164/peak-more-customizations/tree/main/docs/publish-content.md)!
 
 You can build from source with [.NET SDK](https://dot.net), this project requires .NET 9.0.
 

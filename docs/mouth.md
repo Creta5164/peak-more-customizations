@@ -9,4 +9,4 @@ Note that you can't modify talking shape with it.
 
 3. Draw anything you want to be!
 4. Hide guide image and save to png file.
-5. [Now you are ready to build asset bundle!](https://github.com/Creta5164/peak-more-customizations/tree/main/docs/build-asset-bundle.md)
+5. [Now you are ready to build asset bundle!](build-asset-bundle.md)
