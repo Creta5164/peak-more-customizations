@@ -41,10 +41,12 @@ public class PassportManagerPatch {
         var fits        = new List<CustomizationOption>(customization.fits);
         var hats        = new List<CustomizationOption>(customization.hats);
         
-        //! Workaround for hidden "Ice Hood Blue" and "Ice Hood Pink" hats.
-        // Add two placeholder hat entries so indices and UI positions match the game's expectations.
-        var missingHats = new[] { "Ice Hood Blue", "Ice Hood Pink" };
+        //FIXME: Workaround for hidden "Ice Hood Blue" and "Ice Hood Pink" hats.
+        //     : Add two placeholder hat entries so indices and UI positions match the game's expectations.
+        string[] missingHats = [ "Ice Hood Blue", "Ice Hood Pink" ];
+        
         foreach (var missingHat in missingHats) {
+            
             if (!hats.Any(h => h.name == missingHat))
                 hats.Add(CreateHatPlaceholder());
         }
@@ -137,13 +139,17 @@ public class PassportManagerPatch {
         customization.hats        = hats.ToArray();
     }
     
+    /// <remarks>
+    /// Required for temporary workaround hat de-sync.
+    /// </remarks>
     private static CustomizationOption CreateHatPlaceholder() {
-        var opt = ScriptableObject.CreateInstance<CustomizationOption>();
-        opt.name = "None";
-        opt.type = Customization.Type.Hat;
-        opt.requiresAscent = true;
-        opt.requiredAscent = 99999;
-        return opt;
+        
+        var option = ScriptableObject.CreateInstance<CustomizationOption>();
+        option.name = "None";
+        option.type = Customization.Type.Hat;
+        option.requiresAscent = true;
+        option.requiredAscent = 99999;
+        return option;
     }
     
     [HarmonyPatch(typeof(PassportManager), "CameraIn")]
