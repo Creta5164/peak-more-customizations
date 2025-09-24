@@ -1,5 +1,10 @@
 # Change logs
 
+## 1.1.7
+
+- Fixed workaround for missing hats in passport which cause shifted indexes. [#17](https://github.com/Creta5164/peak-more-customizations/pull/17)  
+  Contributed by lucyd-dev, gumorr, Umbrason, IntRabbit
+
 ## 1.1.4-1.1.6
 
 ### Breaking change
