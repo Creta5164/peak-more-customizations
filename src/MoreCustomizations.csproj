@@ -48,6 +48,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="Exists('$(DestDir)')">
+    <Message Text="Copying build output to $(DestDir)" Importance="high" />
     <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(DestDir)/BepInEx/plugins/$(ProjectName)" />
     <Copy SourceFiles="@(BuiltInCustoms)" DestinationFolder="$(DestDir)/BepInEx/plugins/$(ProjectName)/%(RecursiveDir)" />
   </Target>

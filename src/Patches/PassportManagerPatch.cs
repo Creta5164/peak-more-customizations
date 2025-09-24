@@ -41,6 +41,16 @@ public class PassportManagerPatch {
         var fits        = new List<CustomizationOption>(customization.fits);
         var hats        = new List<CustomizationOption>(customization.hats);
         
+        //FIXME: Workaround for hidden "Ice Hood Blue" and "Ice Hood Pink" hats.
+        //     : Add two placeholder hat entries so indices and UI positions match the game's expectations.
+        string[] missingHats = [ "Ice Hood Blue", "Ice Hood Pink" ];
+        
+        foreach (var missingHat in missingHats) {
+            
+            if (!hats.Any(h => h.name == missingHat))
+                hats.Add(CreateHatPlaceholder());
+        }
+        
         foreach (var (type, customizationsData) in allCustomizationsData) {
             
             var customizationOptions = type switch {
@@ -62,7 +72,7 @@ public class PassportManagerPatch {
                 
                 if (!customizationData || !customizationData.IsValid)
                     continue;
-                
+                 
                 var option = ScriptableObject.CreateInstance<CustomizationOption>();
                 
                 option.requiredAchievement = ACHIEVEMENTTYPE.NONE;
@@ -111,7 +121,7 @@ public class PassportManagerPatch {
                     }
                     
                     if (fitData.FitOverridePantsTexture) {
-                        
+
                         option.fitMaterialOverridePants = Object.Instantiate(materialTemplate);
                         option.fitMaterialOverridePants.SetTexture("_MainTex", fitData.FitOverridePantsTexture);
                     }
@@ -128,7 +138,20 @@ public class PassportManagerPatch {
         customization.fits        = fits.ToArray();
         customization.hats        = hats.ToArray();
     }
-
+    
+    /// <remarks>
+    /// Required for temporary workaround hat de-sync.
+    /// </remarks>
+    private static CustomizationOption CreateHatPlaceholder() {
+        
+        var option = ScriptableObject.CreateInstance<CustomizationOption>();
+        option.name = "None";
+        option.type = Customization.Type.Hat;
+        option.requiresAscent = true;
+        option.requiredAscent = 99999;
+        return option;
+    }
+    
     [HarmonyPatch(typeof(PassportManager), "CameraIn")]
     [HarmonyTranspiler]
     public static IEnumerable<CodeInstruction> CameraInTranspiler(IEnumerable<CodeInstruction> instructions) {
