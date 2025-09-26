@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using HarmonyLib;
 using MoreCustomizations.Data;
 using UnityEngine;
@@ -96,5 +97,38 @@ public class CharacterCustomizationPatch {
             
             __instance.refs.playerHats = instantiatedHats.ToArray();
         }
+    }
+	
+    [HarmonyPatch(typeof(CharacterCustomization), "SetCharacterHat")]
+    [HarmonyTranspiler]
+    public static IEnumerable<CodeInstruction> SetCharacterHatTranspiler(IEnumerable<CodeInstruction> instructions) {
+        // if (index >= Singleton<Customization>.Instance.hats.Length)
+        //                                                         ^^
+        //                                 add overrideHatCount to length
+		
+        CodeInstruction prev = null;
+        foreach (var instruction in instructions) {
+			
+            if (prev != null && prev.opcode == OpCodes.Ldlen && instruction.opcode == OpCodes.Conv_I4) {
+				
+				// yield Ldlen
+				yield return prev;
+				// inject: ldsfld Plugin.OverrideHatCount; add
+				yield return new CodeInstruction(OpCodes.Ldsfld, AccessTools.Field(typeof(Plugin), "overrideHatCount"));
+				yield return new CodeInstruction(OpCodes.Add);
+				// yield Conv_I4
+				yield return instruction;
+				
+				prev = null;
+				continue;
+			}
+			
+            if (prev != null)
+				yield return prev;
+			
+            prev = instruction;
+        }
+        if (prev != null)
+            yield return prev;
     }
 }

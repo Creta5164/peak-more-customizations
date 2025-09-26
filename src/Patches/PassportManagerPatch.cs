@@ -41,14 +41,12 @@ public class PassportManagerPatch {
         var fits        = new List<CustomizationOption>(customization.fits);
         var hats        = new List<CustomizationOption>(customization.hats);
         
-        //FIXME: Workaround for hidden "Ice Hood Blue" and "Ice Hood Pink" hats.
-        //     : Add two placeholder hat entries so indices and UI positions match the game's expectations.
-        string[] missingHats = [ "Ice Hood Blue", "Ice Hood Pink" ];
+        Plugin.overrideHatCount = 0;
         
-        foreach (var missingHat in missingHats) {
+        foreach (var fit in fits) {
             
-            if (!hats.Any(h => h.name == missingHat))
-                hats.Add(CreateHatPlaceholder());
+            if (fit.overrideHat)
+                Plugin.overrideHatCount++;
         }
         
         foreach (var (type, customizationsData) in allCustomizationsData) {
@@ -125,6 +123,10 @@ public class PassportManagerPatch {
                         option.fitMaterialOverridePants = Object.Instantiate(materialTemplate);
                         option.fitMaterialOverridePants.SetTexture("_MainTex", fitData.FitOverridePantsTexture);
                     }
+                } else if (type == Customization.Type.Hat) {
+                    
+                    option.overrideHat = true;
+                    option.overrideHatIndex = hats.Count + Plugin.overrideHatCount;
                 }
                 
                 customizationOptions.Add(option);
@@ -137,19 +139,6 @@ public class PassportManagerPatch {
         customization.mouths      = mouths.ToArray();
         customization.fits        = fits.ToArray();
         customization.hats        = hats.ToArray();
-    }
-    
-    /// <remarks>
-    /// Required for temporary workaround hat de-sync.
-    /// </remarks>
-    private static CustomizationOption CreateHatPlaceholder() {
-        
-        var option = ScriptableObject.CreateInstance<CustomizationOption>();
-        option.name = "None";
-        option.type = Customization.Type.Hat;
-        option.requiresAscent = true;
-        option.requiredAscent = 99999;
-        return option;
     }
     
     [HarmonyPatch(typeof(PassportManager), "CameraIn")]
