@@ -102,33 +102,47 @@ public class CharacterCustomizationPatch {
     [HarmonyPatch(typeof(CharacterCustomization), "SetCharacterHat")]
     [HarmonyTranspiler]
     public static IEnumerable<CodeInstruction> SetCharacterHatTranspiler(IEnumerable<CodeInstruction> instructions) {
+        
         // if (index >= Singleton<Customization>.Instance.hats.Length)
         //                                                         ^^
         //                                 add overrideHatCount to length
-		
-        CodeInstruction prev = null;
-        foreach (var instruction in instructions) {
-			
-            if (prev != null && prev.opcode == OpCodes.Ldlen && instruction.opcode == OpCodes.Conv_I4) {
-				
-				// yield Ldlen
-				yield return prev;
-				// inject: ldsfld Plugin.OverrideHatCount; add
-				yield return new CodeInstruction(OpCodes.Ldsfld, AccessTools.Field(typeof(Plugin), "overrideHatCount"));
-				yield return new CodeInstruction(OpCodes.Add);
-				// yield Conv_I4
-				yield return instruction;
-				
-				prev = null;
-				continue;
-			}
-			
-            if (prev != null)
-				yield return prev;
-			
-            prev = instruction;
+        
+        var codes = instructions.ToList();
+        for (int i = 0; i < codes.Count - 2; i++) {
+            
+            // Look for: ldarg.0, ldfld currentHat, call get_Instance, ldfld hats, ldlen, conv.i4
+            if (codes[i].opcode == OpCodes.Ldarg_0
+             && codes[i + 1].opcode == OpCodes.Call
+             && codes[i + 1].operand.ToString().Contains("get_Instance")
+             && codes[i + 2].opcode == OpCodes.Ldfld
+             && codes[i + 2].operand.ToString().Contains("hats")
+             && codes[i + 3].opcode == OpCodes.Ldlen
+             && codes[i + 4].opcode == OpCodes.Conv_I4
+            ) {
+                
+                // Output the sequence up to ldlen
+                yield return codes[i];
+                yield return codes[i + 1];
+                yield return codes[i + 2];
+                yield return codes[i + 3];
+                
+                // Inject: ldsfld overrideHatCount; add
+                yield return new CodeInstruction(OpCodes.Ldsfld, AccessTools.Field(typeof(Plugin), "overrideHatCount"));
+                yield return new CodeInstruction(OpCodes.Add);
+                
+                // Output conv.i4
+                yield return codes[i + 4];
+                
+                i += 4;
+                continue;
+            }
+            yield return codes[i];
         }
-        if (prev != null)
-            yield return prev;
+        
+        // Yield remaining codes
+        for (int k = codes.Count - 2; k < codes.Count; k++) {
+            
+            if (k >= 0) yield return codes[k];
+        }
     }
 }

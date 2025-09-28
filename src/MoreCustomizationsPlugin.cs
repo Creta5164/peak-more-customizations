@@ -35,6 +35,7 @@ public partial class MoreCustomizationsPlugin : BaseUnityPlugin {
         _patcher.PatchAll(typeof(Patches.PassportManagerPatch));
         _patcher.PatchAll(typeof(Patches.PassportButtonPatch));
         _patcher.PatchAll(typeof(Patches.CharacterCustomizationPatch));
+        _patcher.PatchAll(typeof(Patches.CharacterCustomizationDataPatch));
         _patcher.PatchAll(typeof(Patches.PlayerCustomizationDummyPatch));
         _patcher.PatchAll(typeof(Patches.PeakHandlePatch));
 
