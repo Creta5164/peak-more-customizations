@@ -41,12 +41,12 @@ public class PassportManagerPatch {
         var fits        = new List<CustomizationOption>(customization.fits);
         var hats        = new List<CustomizationOption>(customization.hats);
         
-        Plugin.overrideHatCount = 0;
+        Plugin.OverrideHatCount = 0;
         
         foreach (var fit in fits) {
             
             if (fit.overrideHat)
-                Plugin.overrideHatCount++;
+                Plugin.OverrideHatCount++;
         }
         
         foreach (var (type, customizationsData) in allCustomizationsData) {
@@ -126,7 +126,7 @@ public class PassportManagerPatch {
                 } else if (type == Customization.Type.Hat) {
                     
                     option.overrideHat = true;
-                    option.overrideHatIndex = hats.Count + Plugin.overrideHatCount;
+                    option.overrideHatIndex = hats.Count + Plugin.OverrideHatCount;
                 }
                 
                 customizationOptions.Add(option);

@@ -15,7 +15,7 @@ public class CharacterCustomizationDataPatch {
         
         // if (this.currentHat >= Singleton<Customization>.Instance.hats.Length)
         //                                                                    ^^
-        //                                            add overrideHatCount to length
+        //                                            add OverrideHatCount to length
         
         var codes = instructions.ToList();
         for (int i = 0; i < codes.Count - 2; i++) {
@@ -39,8 +39,8 @@ public class CharacterCustomizationDataPatch {
                 yield return codes[i + 3];
                 yield return codes[i + 4];
                 
-                // Inject: ldsfld overrideHatCount; add
-                yield return new CodeInstruction(OpCodes.Ldsfld, AccessTools.Field(typeof(Plugin), "overrideHatCount"));
+                // Inject: call get_OverrideHatCount; add
+                yield return new CodeInstruction(OpCodes.Call, AccessTools.Property(typeof(Plugin), nameof(Plugin.OverrideHatCount)).GetGetMethod(true));
                 yield return new CodeInstruction(OpCodes.Add);
                 
                 // Output conv.i4
