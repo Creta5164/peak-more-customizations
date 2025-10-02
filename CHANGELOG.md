@@ -1,9 +1,14 @@
 # Change logs
 
+## 1.1.8
+
+- Automated bundle detection for correct set & synced hats [#18](https://github.com/Creta5164/peak-more-customizations/pull/18)  
+  Contributed by LucydDemon
+
 ## 1.1.7
 
 - Fixed workaround for missing hats in passport which cause shifted indexes. [#17](https://github.com/Creta5164/peak-more-customizations/pull/17)  
-  Contributed by lucyd-dev, gumorr, Umbrason, IntRabbit
+  Contributed by LucydDemon, gumorr, Umbrason, IntRabbit
 
 ## 1.1.4-1.1.6
 
