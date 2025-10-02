@@ -18,6 +18,8 @@ public partial class MoreCustomizationsPlugin : BaseUnityPlugin {
     internal static new ManualLogSource Logger;
     
     internal static Harmony _patcher = new(MyPluginInfo.PLUGIN_GUID);
+    // Number of extra placeholder hats introduced by fits that override hats.
+    public static int OverrideHatCount { get; internal set; } = 0;
     
     public static IReadOnlyDictionary<Customization.Type, IReadOnlyList<CustomizationData>> AllCustomizationsData { get; private set; }
     
@@ -31,7 +33,9 @@ public partial class MoreCustomizationsPlugin : BaseUnityPlugin {
         
         Logger.LogInfo("Patching methods...");
         _patcher.PatchAll(typeof(Patches.PassportManagerPatch));
+        _patcher.PatchAll(typeof(Patches.PassportButtonPatch));
         _patcher.PatchAll(typeof(Patches.CharacterCustomizationPatch));
+        _patcher.PatchAll(typeof(Patches.CharacterCustomizationDataPatch));
         _patcher.PatchAll(typeof(Patches.PlayerCustomizationDummyPatch));
         _patcher.PatchAll(typeof(Patches.PeakHandlePatch));
 
