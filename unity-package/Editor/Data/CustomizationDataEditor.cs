@@ -1,8 +1,7 @@
-using UnityEngine;
 using UnityEditor;
 using MoreCustomizations.Data;
 
-namespace MoreCustomizationsEditor.Data {
+namespace MoreCustomizations.Tools.Data {
     
     [CustomEditor(typeof(CustomizationData), true)]
     public class CustomizationDataEditor : Editor {
