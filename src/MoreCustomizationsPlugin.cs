@@ -18,7 +18,11 @@ public partial class MoreCustomizationsPlugin : BaseUnityPlugin {
     internal static new ManualLogSource Logger;
     
     internal static Harmony _patcher = new(MyPluginInfo.PLUGIN_GUID);
-    // Number of extra placeholder hats introduced by fits that override hats.
+    
+    /// <summary>Number of base hats in the game.</summary>
+    public static int BaseHatCount { get; internal set; } = 0;
+    
+    /// <summary>Number of extra placeholder hats introduced by fits that override hats.</summary>
     public static int OverrideHatCount { get; internal set; } = 0;
     
     public static IReadOnlyDictionary<Customization.Type, IReadOnlyList<CustomizationData>> AllCustomizationsData { get; private set; }

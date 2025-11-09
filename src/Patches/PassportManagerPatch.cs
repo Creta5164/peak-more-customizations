@@ -41,6 +41,7 @@ public class PassportManagerPatch {
         var fits        = new List<CustomizationOption>(customization.fits);
         var hats        = new List<CustomizationOption>(customization.hats);
         
+        Plugin.BaseHatCount = hats.Count;
         Plugin.OverrideHatCount = 0;
         
         foreach (var fit in fits) {
@@ -94,7 +95,7 @@ public class PassportManagerPatch {
                             
                             Plugin.Logger.LogWarning(
                                 "Could not find existing fitMaterial to copy! Using fallback material, "
-                                + "expect some visual errors"
+                                + "expect some visual errors."
                             );
                             
                             materialTemplate = FitMaterialFallback.MaterialTemplate;
@@ -123,10 +124,6 @@ public class PassportManagerPatch {
                         option.fitMaterialOverridePants = Object.Instantiate(materialTemplate);
                         option.fitMaterialOverridePants.SetTexture("_MainTex", fitData.FitOverridePantsTexture);
                     }
-                } else if (type == Customization.Type.Hat) {
-                    
-                    option.overrideHat = true;
-                    option.overrideHatIndex = hats.Count + Plugin.OverrideHatCount;
                 }
                 
                 customizationOptions.Add(option);
@@ -139,6 +136,78 @@ public class PassportManagerPatch {
         customization.mouths      = mouths.ToArray();
         customization.fits        = fits.ToArray();
         customization.hats        = hats.ToArray();
+    }
+    
+    [HarmonyPatch(typeof(PassportManager), "SetActiveButton")]
+    [HarmonyTranspiler]
+    public static IEnumerable<CodeInstruction> SetActiveButton(IEnumerable<CodeInstruction> instructions) {
+        
+        //  ...
+        //  else if (this.activeType == Customization.Type.Hat) {
+        //      
+        //      num = playerData.customizationData.currentHat;
+        //      
+        // +    if(num > Plugin.BaseHatCount) {
+        // +        num -= Plugin.OverrideHatCount;
+        // +    }
+        //      add a check if hat is custom, if so subtract the OverrideHatCount.
+        //  }
+        //  ...
+        
+        var codes = instructions.ToList();
+        for (int i = 0; i < codes.Count - 2; i++) {
+            
+            //Look for: ldloc.0, ldfld customizationData, ldfld currentHat, stloc.0
+            if (codes[i].opcode == OpCodes.Ldloc_0
+             && codes[i + 1].opcode == OpCodes.Ldfld
+             && codes[i + 1].operand.ToString().Contains("customizationData")
+             && codes[i + 2].opcode == OpCodes.Ldfld
+             && codes[i + 2].operand.ToString().Contains("currentHat")
+             && codes[i + 3].opcode == OpCodes.Stloc_1
+            ) {
+                
+                //Output the sequence up to Ldfld
+                yield return codes[i];
+                yield return codes[i + 1];
+                yield return codes[i + 2];
+                
+                //Inject: if (num > Plugin.BaseHatCount) num -= Plugin.OverrideHatCount;
+                //Stack: <currentHat>
+                
+                //Duplicate the value so we can compare and still have original for subtraction if needed.
+                yield return new CodeInstruction(OpCodes.Dup);
+                
+                yield return new CodeInstruction(OpCodes.Call, AccessTools.Property(typeof(Plugin), nameof(Plugin.BaseHatCount)).GetGetMethod(true));
+                
+                //if (dup > BaseHatCount) -> leave original on stack and continue
+                //We'll branch if less than or equal to BaseHatCount to skip subtraction.
+                var skipLabel = new Label();
+                yield return new CodeInstruction(OpCodes.Ble_S) { operand = skipLabel };
+                
+                //call get_OverrideHatCount and subtract.
+                yield return new CodeInstruction(OpCodes.Call, AccessTools.Property(typeof(Plugin), nameof(Plugin.OverrideHatCount)).GetGetMethod(true));
+                yield return new CodeInstruction(OpCodes.Sub);
+                
+                //Mark skip label position.
+                var nop = new CodeInstruction(OpCodes.Nop);
+                nop.labels.Add(skipLabel);
+                yield return nop;
+                
+                //Output stloc.0
+                yield return codes[i + 3];
+                
+                i += 3;
+                continue;
+            }
+            yield return codes[i];
+        }
+        
+        //Yield remaining codes.
+        for (int k = codes.Count - 2; k < codes.Count; k++) {
+            
+            if (k >= 0)
+                yield return codes[k];
+        }
     }
     
     [HarmonyPatch(typeof(PassportManager), "CameraIn")]

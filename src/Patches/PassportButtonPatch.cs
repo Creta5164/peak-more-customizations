@@ -1,23 +1,21 @@
 
 using HarmonyLib;
-using System.Reflection;
-using UnityEngine;
 
 using Plugin = MoreCustomizations.MoreCustomizationsPlugin;
 
 namespace MoreCustomizations.Patches;
 
 public class PassportButtonPatch {
-        
+    
     [HarmonyPatch(typeof(PassportButton), "SetButton")]
     [HarmonyPostfix]
-    private static void SetButton(ref int ___currentIndex, CustomizationOption option, int index) {
+    private static void SetButton(ref int ___currentIndex, CustomizationOption option) {
         
         if (option == null) return;
         
-        if (option.type == Customization.Type.Hat && option.overrideHat) {
+        if (option.type == Customization.Type.Hat && ___currentIndex >= Plugin.BaseHatCount) {
             
-            ___currentIndex = option.overrideHatIndex;
+            ___currentIndex += Plugin.OverrideHatCount;
         }
     }
 }
