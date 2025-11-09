@@ -1,13 +1,27 @@
 # Change logs
 
+## 1.1.9
+
+Tool package version is now up to `1.1.9`, please update it on Package Manager window in Unity.
+
+- Fixed the wrong highlighting hat icon in passport after Roots update and improved internal indexing logic.  
+  [#23](https://github.com/Creta5164/peak-more-customizations/pull/23)  
+  Contributed by LucydDemon
+- Tool : Fixes an issue with inconsistent `BindPoses` between any outfits exported out of the `.blend` template and the vanilla outfits,
+  resulting in distorted geometry around the 'hip' area.
+  [#20](https://github.com/Creta5164/peak-more-customizations/pull/20)  
+  Contributed by Umbrason
+
 ## 1.1.8
 
-- Automated bundle detection for correct set & synced hats [#18](https://github.com/Creta5164/peak-more-customizations/pull/18)  
+- Automated bundle detection for correct set & synced hats.
+  [#18](https://github.com/Creta5164/peak-more-customizations/pull/18)  
   Contributed by LucydDemon
 
 ## 1.1.7
 
-- Fixed workaround for missing hats in passport which cause shifted indexes. [#17](https://github.com/Creta5164/peak-more-customizations/pull/17)  
+- Fixed workaround for missing hats in passport which cause shifted indexes.
+  [#17](https://github.com/Creta5164/peak-more-customizations/pull/17)  
   Contributed by LucydDemon, gumorr, Umbrason, IntRabbit
 
 ## 1.1.4-1.1.6
@@ -17,8 +31,10 @@
 Tool package version is now up to `1.1.4` due fit support and UX improvement for tool package.  
 Please update it on Package Manager window in Unity.
 
-- Added detailed validation for tool package.
-- Added fit support. [#12](https://github.com/Creta5164/peak-more-customizations/pull/12), [#14](https://github.com/Creta5164/peak-more-customizations/pull/14)  
+- Tool : Added detailed validation for tool package.
+- Tool : Added fit support.
+  [#12](https://github.com/Creta5164/peak-more-customizations/pull/12),
+  [#14](https://github.com/Creta5164/peak-more-customizations/pull/14)  
   Contributed by Umbrason
 
 ## 1.1.3
@@ -27,7 +43,7 @@ Please update it on Package Manager window in Unity.
 
 ## 1.1.2
 
-- Added detailed information about Green value of eye texture. [#4](https://github.com/Creta5164/peak-more-customizations/issues/4)  
+- Docs : Added detailed information about Green value of eye texture. [#4](https://github.com/Creta5164/peak-more-customizations/issues/4)  
   Contributed by FedoraBunny
 - Fixed ending sequence not showing custom hats. [#10](https://github.com/Creta5164/peak-more-customizations/pull/10)  
   Contributed by IntRabbit (thanks again!)
@@ -58,10 +74,10 @@ Sorry for inconvenience.
 
 Special thanks to IAmBatby, AriIcedT, LittleTurtle!
 
-- Overhaul and reworked the customization data classes and loading logics for improving content creation workflow.
-- Updated guide document about
+- Tool : Overhaul and reworked the customization data classes and loading logics for improving content creation workflow.
+- Docs : Updated guide document about
     [Build asset bundle](https://github.com/creta5164/peak-more-customizations/tree/main/docs/build-asset-bundle.md).
-- Updated the guide documentation to reflect additional information about eyes.
+- Docs : Updated the guide documentation to reflect additional information about eyes.
 
 ## 1.0.5
 
@@ -69,7 +85,7 @@ Special thanks to IAmBatby, AriIcedT, LittleTurtle!
 
 ## 1.0.2-1.0.4
 
-- Updated documentations for ThunderStore
+- Docs : Updated documentations for ThunderStore
 - Added `The MIT License (MIT)` to LICENSE (I missed this one, sorry!)
 
 ## 1.0.0-1.0.1

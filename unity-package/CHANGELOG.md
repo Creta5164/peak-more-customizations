@@ -1,5 +1,11 @@
 # Change logs
 
+## 1.1.9
+
+- Fixes an issue with inconsistent `BindPoses` between any outfits exported out of the `.blend` template and the vanilla outfits,
+  resulting in distorted geometry around the 'hip' area. [#20](https://github.com/Creta5164/peak-more-customizations/pull/20)  
+  Contributed by Umbrason
+
 ## 1.1.4
 
 ### Breaking change

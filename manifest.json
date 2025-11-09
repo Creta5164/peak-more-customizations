@@ -1,7 +1,7 @@
 {
     "name": "More_Customizations",
     "description": "This mod makes it easy to create and add cosmetic-related content.",
-    "version_number": "1.1.8",
+    "version_number": "1.1.9",
     "dependencies": [
         "BepInEx-BepInExPack_PEAK-5.4.75301"
     ],

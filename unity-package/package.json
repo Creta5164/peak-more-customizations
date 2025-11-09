@@ -1,7 +1,7 @@
 {
     "name": "com.cretapark.more-customization-tools",
     "displayName": "Tools for PEAK More Customization mod",
-    "version": "1.1.4",
+    "version": "1.1.9",
     "description": "This package provides tools for creating custom contents for More Customization mod on PEAK.",
     "unity": "6000.0",
     "author": {
