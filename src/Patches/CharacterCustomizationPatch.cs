@@ -13,7 +13,6 @@ public class CharacterCustomizationPatch {
 
     public const string HAT_PATH = @"Scout/" + Helpers.CustomizationRefsHelper.REF_TO_HATS_PATH;
     private static Shader _characterShader;
-    private static MaterialPropertyBlock _materialPropertyBlock = new();
     private static readonly Vector3 INITIAL_HAT_OFFSET = new(0, 0.2f, 6.0f);
     
     [HarmonyPatch(typeof(CharacterCustomization), "Awake")]
@@ -36,7 +35,7 @@ public class CharacterCustomizationPatch {
         
         if (!_characterShader)
             _characterShader = Shader.Find("W/Character");
-
+        
         //Hats
         if (allCustomizationsData.TryGetValue(Customization.Type.Hat, out var customizationsData)) {
             
@@ -103,14 +102,14 @@ public class CharacterCustomizationPatch {
     [HarmonyTranspiler]
     public static IEnumerable<CodeInstruction> SetCharacterHatTranspiler(IEnumerable<CodeInstruction> instructions) {
         
-        // if (index >= Singleton<Customization>.Instance.hats.Length)
-        //                                                         ^^
-        //                                 add OverrideHatCount to length
+        //if (index >= Singleton<Customization>.Instance.hats.Length + Plugin.OverrideHatCount)
+        //                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^
+        //                                                           add OverrideHatCount to length
         
         var codes = instructions.ToList();
         for (int i = 0; i < codes.Count - 2; i++) {
             
-            // Look for: ldarg.0, ldfld currentHat, call get_Instance, ldfld hats, ldlen, conv.i4
+            //Look for: ldarg.0, ldfld currentHat, call get_Instance, ldfld hats, ldlen, conv.i4
             if (codes[i].opcode == OpCodes.Ldarg_0
              && codes[i + 1].opcode == OpCodes.Call
              && codes[i + 1].operand.ToString().Contains("get_Instance")
@@ -120,17 +119,17 @@ public class CharacterCustomizationPatch {
              && codes[i + 4].opcode == OpCodes.Conv_I4
             ) {
                 
-                // Output the sequence up to ldlen
+                //Output the sequence up to ldlen
                 yield return codes[i];
                 yield return codes[i + 1];
                 yield return codes[i + 2];
                 yield return codes[i + 3];
                 
-                // Inject: call get_OverrideHatCount; add
+                //Inject: call get_OverrideHatCount; add
                 yield return new CodeInstruction(OpCodes.Call, AccessTools.Property(typeof(Plugin), nameof(Plugin.OverrideHatCount)).GetGetMethod(true));
                 yield return new CodeInstruction(OpCodes.Add);
                 
-                // Output conv.i4
+                //Output conv.i4
                 yield return codes[i + 4];
                 
                 i += 4;
@@ -139,10 +138,11 @@ public class CharacterCustomizationPatch {
             yield return codes[i];
         }
         
-        // Yield remaining codes
+        //Yield remaining codes.
         for (int k = codes.Count - 2; k < codes.Count; k++) {
             
-            if (k >= 0) yield return codes[k];
+            if (k >= 0)
+                yield return codes[k];
         }
     }
 }
