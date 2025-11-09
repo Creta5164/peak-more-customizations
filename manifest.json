@@ -3,8 +3,7 @@
     "description": "This mod makes it easy to create and add cosmetic-related content.",
     "version_number": "1.1.8",
     "dependencies": [
-        "BepInEx-BepInExPack_PEAK-5.4.75301",
-        "Radsi2-PassporPagination-1.0.1"
+        "BepInEx-BepInExPack_PEAK-5.4.75301"
     ],
     "website_url": "https://github.com/creta5164/peak-more-customizations"
 }
