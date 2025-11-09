@@ -4,7 +4,7 @@
 
 Tool package version is now up to `1.1.9`, please update it on Package Manager window in Unity.
 
-- Fixed the wrong highlighting hat icon in passport after Roots update and improved internal indexing logic.  
+- Fixed the wrong highlighting hat icon in passport after Roots update and improved internal indexing logic.
   [#23](https://github.com/Creta5164/peak-more-customizations/pull/23)  
   Contributed by LucydDemon
 - Tool : Fixes an issue with inconsistent `BindPoses` between any outfits exported out of the `.blend` template and the vanilla outfits,
