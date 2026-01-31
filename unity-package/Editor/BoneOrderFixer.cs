@@ -11,9 +11,6 @@ namespace MoreCustomizations.Tools {
         
         private void OnPostprocessModel(GameObject prefab) {
             
-            if (!PrefabUtility.IsPartOfImmutablePrefab(prefab))
-                return;
-            
             var skinnedMeshRenderer = prefab.GetComponentInChildren<SkinnedMeshRenderer>();
             
             if (!skinnedMeshRenderer)
