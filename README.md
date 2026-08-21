@@ -30,11 +30,6 @@ you can update your tool by pressing 'Update' button of tool package in package 
 - It'll only show correctly if other players has exactly same customization mods or files.
   - This is caused by save data are order-dependent.
 
-# Dependencies
-
-- [Passport Pagination](https://github.com/radsi/PEAK-PassportPagination)
-  - This allows to navigate more then passport page's option count so it's must be required.
-
 # Creating your customization
 
 ## Prerequisites

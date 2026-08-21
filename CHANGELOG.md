@@ -1,5 +1,12 @@
 # Change logs
 
+## 1.1.11
+
+Tool package version is now up to `1.1.11`, please update it on Package Manager window in Unity.
+
+- Fixed floating point parsing by locale
+  [#25](https://github.com/Creta5164/peak-more-customizations/pull/25)
+
 ## 1.1.10
 
 Tool package version is now up to `1.1.10`, please update it on Package Manager window in Unity.

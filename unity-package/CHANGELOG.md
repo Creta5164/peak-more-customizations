@@ -1,5 +1,10 @@
 # Change logs
 
+## 1.1.11
+
+- Fixed floating point parsing by locale
+  [#25](https://github.com/Creta5164/peak-more-customizations/pull/25)
+
 ## 1.1.10
 
 - Fixed regression of clean up from [#20](https://github.com/Creta5164/peak-more-customizations/pull/20) before merge. (Removed immutable prefab check in `BoneOrderFixer` from [a81e620769](https://github.com/Creta5164/peak-more-customizations/pull/20/changes/a81e6207694e4ad3be07fe699585995091b24b0e#diff-9c63c2fe3c6a50d5fc951d817e4defbb7821b70c44d47ea56cd393433bbdb267))
