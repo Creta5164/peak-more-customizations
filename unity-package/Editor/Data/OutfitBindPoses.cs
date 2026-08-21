@@ -1,6 +1,7 @@
 using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Globalization;
 
 namespace MoreCustomizations.Tools.Data {
     
@@ -59,7 +60,7 @@ namespace MoreCustomizations.Tools.Data {
             return result.ToArray();
             
             float ReadValue()
-                => float.Parse(reader.ReadLine()[7..]);     //7 is maximum length of element entry to float value.
+                => float.Parse(reader.ReadLine()[7..], CultureInfo.InvariantCulture);     //7 is maximum length of element entry to float value.
         }
         
         //TODO: Summarize the process of extracting the relevant data from the game.
